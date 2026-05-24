@@ -31,6 +31,8 @@ img{max-width:100%;display:block}
 .btn-red:hover{background:#dc2626;box-shadow:0 10px 30px rgba(239,68,68,0.4);transform:translateY(-2px)}
 .btn-outline-w{background:rgba(255,255,255,.05);color:#fff;border:1px solid rgba(255,255,255,.15);padding:14px 28px;border-radius:12px;font-weight:700;font-size:.95rem;transition:all .3s cubic-bezier(0.4, 0, 0.2, 1);display:inline-flex;align-items:center;gap:8px;backdrop-filter:blur(10px)}
 .btn-outline-w:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,0.3)}
+.btn-warning{background:#f59e0b;color:#fff;padding:14px 28px;border-radius:12px;font-weight:700;font-size:.95rem;transition:all .3s;display:inline-flex;align-items:center;gap:8px;border:none}
+.btn-warning:hover{background:#d97706;transform:translateY(-2px)}
 
 /* Pulse Animation */
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
@@ -364,7 +366,7 @@ body.admin-logged-in .admin-card-actions{display:flex}
 /*========== MODAL STYLES ==========*/
 .admin-modal{display:none;position:fixed;inset:0;background:rgba(15,23,42,0.7);backdrop-filter:blur(10px);z-index:1000;align-items:center;justify-content:center;padding:16px}
 .admin-modal.active{display:flex;animation:fadeIn .3s ease}
-.modal-content{background:#fff;box-shadow:0 24px 48px -12px rgba(0,0,0,0.35);border-radius:20px;width:100%;max-width:900px;max-height:90vh;overflow-y:auto;padding:28px;position:relative;animation:scaleIn .3s ease}
+.modal-content{background:#fff;box-shadow:0 24px 48px -12px rgba(0,0,0,0.35);border-radius:20px;width:100%;max-width:1000px;max-height:90vh;overflow-y:auto;padding:28px;position:relative;animation:scaleIn .3s ease}
 .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;border-bottom:1px solid #e2e8f0;padding-bottom:12px}
 .modal-header h3{font-size:1.15rem;font-weight:900;color:#0f172a}
 .btn-close-modal{background:none;font-size:1.4rem;color:#64748b;transition:all .2s}
@@ -392,13 +394,21 @@ body.admin-logged-in .admin-card-actions{display:flex}
 .admin-stat-card .val{font-size:1.5rem;font-weight:900;color:#34d399}
 .admin-stat-card .lbl{font-size:0.7rem;color:#94a3b8;text-transform:uppercase;margin-top:3px}
 
+/* Action Buttons Group */
+.action-buttons-group{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+.action-btn{flex:1;padding:12px;border-radius:10px;font-weight:700;font-size:.85rem;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;transition:all .3s}
+.action-btn.export{background:#10b981;color:#fff}
+.action-btn.export:hover{background:#059669;transform:translateY(-2px)}
+.action-btn.reset{background:#ef4444;color:#fff}
+.action-btn.reset:hover{background:#dc2626;transform:translateY(-2px)}
+
 /* Time Filter Buttons */
 .time-filter{display:flex;gap:10px;margin-bottom:20px;justify-content:center;flex-wrap:wrap}
 .time-btn{padding:8px 20px;border-radius:50px;font-weight:700;font-size:.85rem;background:#f1f5f9;color:#64748b;cursor:pointer;transition:all .3s ease;border:none}
 .time-btn:hover{background:#e2e8f0;transform:translateY(-2px)}
 .time-btn.active{background:linear-gradient(135deg,#10b981,#059669);color:#fff;box-shadow:0 4px 12px rgba(16,185,129,0.3)}
 
-/* Click Performance Cards */
+/* Click Stats Grid */
 .click-stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:16px}
 .click-stat-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:16px;padding:20px;transition:all .3s ease;position:relative;overflow:hidden}
 .click-stat-card:hover{transform:translateY(-4px);border-color:#10b981;box-shadow:0 8px 20px rgba(16,185,129,0.1)}
@@ -457,6 +467,14 @@ body.admin-logged-in .admin-card-actions{display:flex}
 .perf-table tr:hover{background:#f8fafc}
 .perf-rank{font-weight:800;color:#10b981}
 
+/* Confirmation Modal */
+.confirm-modal{max-width:400px;text-align:center}
+.confirm-modal .warning-icon{font-size:3rem;margin-bottom:16px}
+.confirm-modal h3{color:#dc2626;margin-bottom:12px}
+.confirm-modal p{margin-bottom:20px;color:#64748b}
+.confirm-buttons{display:flex;gap:12px}
+.confirm-buttons button{flex:1;padding:12px;border-radius:10px;font-weight:700}
+
 /* Responsive Modal */
 @media(max-width:768px){
   .modal-content{max-width:100%;border-radius:16px 16px 0 0;margin-top:auto}
@@ -464,6 +482,7 @@ body.admin-logged-in .admin-card-actions{display:flex}
   .admin-panel-tabs{gap:8px}
   .panel-tab{padding:8px 12px;font-size:0.8rem}
   .click-stats-grid{grid-template-columns:1fr}
+  .action-buttons-group{flex-direction:column}
 }
 
 /*========== ANIMATIONS ==========*/
@@ -820,6 +839,12 @@ body.admin-logged-in .admin-card-actions{display:flex}
       <div class="admin-stat-card"><div class="val" id="adminTopSeller">-</div><div class="lbl">Top Seller</div></div>
     </div>
 
+    <!-- Action Buttons -->
+    <div class="action-buttons-group">
+      <button class="action-btn export" onclick="exportAllData()"><i class="fas fa-download"></i> 📥 Export All Data (CSV)</button>
+      <button class="action-btn reset" onclick="showResetConfirm()"><i class="fas fa-trash-alt"></i> 🔄 Reset All Data</button>
+    </div>
+
     <div class="admin-panel-tabs">
       <button class="panel-tab active" onclick="switchTab('seller')">📝 Manage Experts</button>
       <button class="panel-tab" onclick="switchTab('cat')">📁 Categories</button>
@@ -835,9 +860,7 @@ body.admin-logged-in .admin-card-actions{display:flex}
       </div>
       <div style="max-height:280px;overflow-y:auto;border:1px solid #e2e8f0;border-radius:10px">
         <table class="seller-table">
-          <thead>
-            <tr><th>Expert</th><th>Category</th><th>Level</th><th>Rating</th><th>Actions</th></tr>
-          </thead>
+          <thead><tr><th>Expert</th><th>Category</th><th>Level</th><th>Rating</th><th>Actions</th></tr></thead>
           <tbody id="sellersTableBody"></tbody>
         </table>
       </div>
@@ -848,150 +871,64 @@ body.admin-logged-in .admin-card-actions{display:flex}
     <div class="tab-content" id="tabAddSeller">
       <form id="sellerForm" onsubmit="handleSaveSeller(event)">
         <input type="hidden" id="editSellerId" value=""/>
-        <div class="form-group">
-          <label>Expert Name *</label>
-          <input type="text" id="sName" class="form-control" required placeholder="e.g. John Smith"/>
-        </div>
-        <div class="form-group">
-          <label>Seller Level *</label>
-          <select id="sLevel" class="form-control">
-            <option value="level-1">Level 1 Seller</option>
-            <option value="level-2">Level 2 Seller</option>
-            <option value="level-top">Top Rated Seller</option>
-            <option value="level-fiverr-choice">Fiverr Choice</option>
-            <option value="level-fiverr-pro">Fiverr Pro</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Category *</label>
-          <select id="sCat" class="form-control"></select>
-        </div>
-        <div class="form-group">
-          <label>Avatar URL *</label>
-          <input type="url" id="sImg" class="form-control" required placeholder="https://example.com/avatar.jpg" onchange="previewImage(this)"/>
-          <img id="imagePreview" class="image-preview" style="display:none"/>
-        </div>
-        <div class="form-group">
-          <label>Service Title *</label>
-          <input type="text" id="sTitle" class="form-control" required placeholder="I will design a modern website..."/>
-        </div>
-        <div class="form-group">
-          <label>Description *</label>
-          <textarea id="sDesc" class="form-control" style="height:70px" required placeholder="Professional description..."></textarea>
-        </div>
-        <div class="form-group">
-          <label>Skills (comma separated)</label>
-          <input type="text" id="sSkills" class="form-control" required placeholder="WordPress, React, Figma"/>
-        </div>
-        <div style="display:flex;gap:10px">
-          <div class="form-group" style="flex:1">
-            <label>Rating (0-5)</label>
-            <input type="number" id="sRating" class="form-control" step="0.1" min="0" max="5" required placeholder="4.9"/>
-          </div>
-          <div class="form-group" style="flex:1">
-            <label>Reviews Count</label>
-            <input type="number" id="sReviews" class="form-control" required placeholder="487"/>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Delivery Time *</label>
-          <select id="sDelivery" class="form-control">
-            <option value="1 Day">1 Day</option>
-            <option value="2 Days">2 Days</option>
-            <option value="3 Days">3 Days</option>
-            <option value="7 Days">7 Days</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Response Time (Project-based)</label>
-          <input type="text" id="sResponse" class="form-control" required placeholder="e.g. Within 24 hours"/>
-        </div>
-        <div style="display:flex;gap:10px">
-          <div class="form-group" style="flex:1">
-            <label>Starting Price ($) *</label>
-            <input type="number" id="sPrice" class="form-control" required placeholder="50"/>
-          </div>
-          <div class="form-group" style="flex:1">
-            <label>Fiverr Link *</label>
-            <input type="url" id="sLink" class="form-control" required placeholder="https://fiverr.com/..."/>
-          </div>
-        </div>
-        <div style="display:flex;gap:10px;margin-top:16px">
-          <button type="submit" class="btn-green" style="flex:1;justify-content:center">💾 Save Expert</button>
-          <button type="button" class="btn-red" style="flex:1;justify-content:center" onclick="switchTab('seller')">Cancel</button>
-        </div>
+        <div class="form-group"><label>Expert Name *</label><input type="text" id="sName" class="form-control" required/></div>
+        <div class="form-group"><label>Seller Level *</label><select id="sLevel" class="form-control"><option value="level-1">Level 1 Seller</option><option value="level-2">Level 2 Seller</option><option value="level-top">Top Rated Seller</option><option value="level-fiverr-choice">Fiverr Choice</option><option value="level-fiverr-pro">Fiverr Pro</option></select></div>
+        <div class="form-group"><label>Category *</label><select id="sCat" class="form-control"></select></div>
+        <div class="form-group"><label>Avatar URL *</label><input type="url" id="sImg" class="form-control" required onchange="previewImage(this)"/><img id="imagePreview" class="image-preview" style="display:none"/></div>
+        <div class="form-group"><label>Service Title *</label><input type="text" id="sTitle" class="form-control" required/></div>
+        <div class="form-group"><label>Description *</label><textarea id="sDesc" class="form-control" style="height:70px" required></textarea></div>
+        <div class="form-group"><label>Skills (comma separated)</label><input type="text" id="sSkills" class="form-control" required/></div>
+        <div style="display:flex;gap:10px"><div class="form-group" style="flex:1"><label>Rating (0-5)</label><input type="number" id="sRating" class="form-control" step="0.1" min="0" max="5" required/></div><div class="form-group" style="flex:1"><label>Reviews Count</label><input type="number" id="sReviews" class="form-control" required/></div></div>
+        <div class="form-group"><label>Delivery Time *</label><select id="sDelivery" class="form-control"><option value="1 Day">1 Day</option><option value="2 Days">2 Days</option><option value="3 Days">3 Days</option><option value="7 Days">7 Days</option></select></div>
+        <div class="form-group"><label>Response Time</label><input type="text" id="sResponse" class="form-control" required/></div>
+        <div style="display:flex;gap:10px"><div class="form-group" style="flex:1"><label>Starting Price ($) *</label><input type="number" id="sPrice" class="form-control" required/></div><div class="form-group" style="flex:1"><label>Fiverr Link *</label><input type="url" id="sLink" class="form-control" required/></div></div>
+        <div style="display:flex;gap:10px;margin-top:16px"><button type="submit" class="btn-green" style="flex:1;justify-content:center">💾 Save Expert</button><button type="button" class="btn-red" style="flex:1;justify-content:center" onclick="switchTab('seller')">Cancel</button></div>
       </form>
     </div>
 
     <!-- CATEGORIES TAB -->
     <div class="tab-content" id="tabCat">
-      <form id="catForm" onsubmit="handleAddCategory(event)">
-        <div style="display:flex;gap:10px">
-          <div class="form-group" style="flex:1">
-            <label>Category Key (lowercase, no spaces)</label>
-            <input type="text" id="catKey" class="form-control" required placeholder="e.g. webdesign"/>
-          </div>
-          <div class="form-group" style="flex:1">
-            <label>Display Label</label>
-            <input type="text" id="catLabel" class="form-control" required placeholder="e.g. Web Design"/>
-          </div>
-        </div>
-        <button type="submit" class="btn-green" style="width:100%;justify-content:center;border-radius:10px">➕ Add Category</button>
-      </form>
-      <div style="margin-top:16px">
-        <label style="display:block;font-weight:700;margin-bottom:10px;font-size:.85rem">Active Categories</label>
-        <div id="activeCatsAdminList" style="display:flex;flex-direction:column;gap:6px;max-height:180px;overflow-y:auto;padding:10px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0"></div>
-      </div>
+      <form id="catForm" onsubmit="handleAddCategory(event)"><div style="display:flex;gap:10px"><div class="form-group" style="flex:1"><label>Category Key</label><input type="text" id="catKey" class="form-control" required/></div><div class="form-group" style="flex:1"><label>Display Label</label><input type="text" id="catLabel" class="form-control" required/></div></div><button type="submit" class="btn-green" style="width:100%;border-radius:10px">➕ Add Category</button></form>
+      <div style="margin-top:16px"><label style="display:block;font-weight:700;margin-bottom:10px;">Active Categories</label><div id="activeCatsAdminList" style="max-height:180px;overflow-y:auto;padding:10px;background:#f8fafc;border-radius:10px;border:1px solid #e2e8f0"></div></div>
     </div>
 
     <!-- ANALYTICS TAB -->
     <div class="tab-content" id="tabAnalytics">
-      <h4 style="margin-bottom:12px;color:#0f172a">📈 Expert Performance Analytics</h4>
-
-      <!-- Category-wise Stats -->
-      <div style="margin-bottom:20px">
-        <label style="display:block;font-weight:700;margin-bottom:10px;font-size:.85rem">📂 Category-wise Expert Distribution</label>
-        <div class="cat-stats-grid" id="catStatsGrid"></div>
-      </div>
-
-      <!-- Level Distribution -->
-      <div style="margin-bottom:20px">
-        <label style="display:block;font-weight:700;margin-bottom:10px;font-size:.85rem">🏆 Seller Level Distribution</label>
-        <div class="level-dist-chart" id="levelDistChart"></div>
-      </div>
-
-      <!-- Top Performers -->
-      <div>
-        <label style="display:block;font-weight:700;margin-bottom:10px;font-size:.85rem">⭐ Top Performing Experts</label>
-        <table class="perf-table">
-          <thead><tr><th>Rank</th><th>Expert</th><th>Category</th><th>Rating</th><th>Reviews</th></tr></thead>
-          <tbody id="topPerformersBody"></tbody>
-        </table>
-      </div>
+      <h4 style="margin-bottom:12px;">📈 Expert Performance Analytics</h4>
+      <div style="margin-bottom:20px"><label style="display:block;font-weight:700;margin-bottom:10px;">📂 Category-wise Expert Distribution</label><div class="cat-stats-grid" id="catStatsGrid"></div></div>
+      <div style="margin-bottom:20px"><label style="display:block;font-weight:700;margin-bottom:10px;">🏆 Seller Level Distribution</label><div class="level-dist-chart" id="levelDistChart"></div></div>
+      <div><label style="display:block;font-weight:700;margin-bottom:10px;">⭐ Top Performing Experts</label><table class="perf-table"><thead><tr><th>Rank</th><th>Expert</th><th>Category</th><th>Rating</th><th>Reviews</th></tr></thead><tbody id="topPerformersBody"></tbody></table></div>
     </div>
 
-    <!-- CLICK ANALYTICS TAB - NEW -->
+    <!-- CLICK ANALYTICS TAB -->
     <div class="tab-content" id="tabClicks">
-      <h4 style="margin-bottom:12px;color:#0f172a">👆 Profile Click Performance</h4>
+      <h4 style="margin-bottom:12px;">👆 Profile Click Performance</h4>
       <p style="color:#64748b;margin-bottom:16px;font-size:.85rem">Track which expert profiles get the most clicks from clients</p>
-      
-      <!-- Time Filter Buttons -->
       <div class="time-filter">
-        <button class="time-btn" data-days="0" onclick="setClickFilter(7)">Last 7 Days</button>
-        <button class="time-btn" data-days="0" onclick="setClickFilter(14)">Last 14 Days</button>
-        <button class="time-btn" data-days="0" onclick="setClickFilter(21)">Last 21 Days</button>
+        <button class="time-btn" data-days="7" onclick="setClickFilter(7)">Last 7 Days</button>
+        <button class="time-btn" data-days="14" onclick="setClickFilter(14)">Last 14 Days</button>
+        <button class="time-btn" data-days="21" onclick="setClickFilter(21)">Last 21 Days</button>
         <button class="time-btn active" data-days="0" onclick="setClickFilter(0)">All Time</button>
       </div>
-
-      <!-- Click Stats Grid -->
       <div class="click-stats-grid" id="clickStatsGrid"></div>
-
-      <!-- Summary Stats -->
       <div style="margin-top:20px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
         <div class="admin-stat-card" style="background:#f0fdf4"><div class="val" id="totalClicksAll">0</div><div class="lbl" style="color:#166534">Total Clicks</div></div>
         <div class="admin-stat-card" style="background:#eff6ff"><div class="val" id="avgClicksPerSeller">0</div><div class="lbl" style="color:#1e40af">Avg per Seller</div></div>
         <div class="admin-stat-card" style="background:#fef3c7"><div class="val" id="topClickSeller">-</div><div class="lbl" style="color:#92400e">Most Clicked</div></div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="admin-modal" id="confirmModal">
+  <div class="modal-content confirm-modal">
+    <div class="warning-icon">⚠️</div>
+    <h3>Reset All Data?</h3>
+    <p>This action will permanently delete all experts, categories, and click data. This cannot be undone!</p>
+    <div class="confirm-buttons">
+      <button class="btn-red" onclick="resetAllData()">Yes, Reset Everything</button>
+      <button class="btn-green" onclick="closeModal('confirmModal')">Cancel</button>
     </div>
   </div>
 </div>
@@ -1011,18 +948,10 @@ const DEFAULT_CATEGORIES = [
 ];
 
 const DEFAULT_SELLERS = [
-  {
-    id: "s1", name: "Arif Hasan", level: "level-2", cat: "web", price: 50, rating: "4.9", reviews: 487, delivery: "3 Days", response: "Within 24 hours", orders: "520+", title: "I will design a modern, responsive website for your business", desc: "Professional web designer with 5+ years experience in creating stunning, conversion-focused websites.", img: "https://fiverr-res.cloudinary.com/image/upload/t_profile_original,q_auto,f_auto/v1/attachments/profile/photo/a338e20165ef1579132b59c025619cda-1753958218510/1d3c693e-e33e-46b7-8524-33e3cbddb7ee.jpg", skills: ["WordPress", "React", "Figma", "Responsive"], link: "https://www.fiverr.com/?utm_source=skillhub"
-  },
-  {
-    id: "s2", name: "Fatima Rahman", level: "level-top", cat: "logo", price: 35, rating: "5.0", reviews: 1203, delivery: "2 Days", response: "Within 12 hours", orders: "1,350+", title: "I will create a stunning logo and full brand identity", desc: "Award-winning graphic designer specializing in brand identity, logo design, and visual storytelling.", img: "https://images.pexels.com/photos/7717254/pexels-photo-7717254.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", skills: ["Logo", "Branding", "Illustrator", "Photoshop"], link: "https://www.fiverr.com/?utm_source=skillhub"
-  },
-  {
-    id: "s3", name: "Rakib Ahmed", level: "level-2", cat: "seo", price: 80, rating: "4.8", reviews: 312, delivery: "7 Days", response: "Within 24 hours", orders: "340+", title: "I will do SEO optimization to rank your website on Google", desc: "SEO expert with proven results. Helped 300+ businesses rank on Google's first page.", img: "https://images.pexels.com/photos/7752820/pexels-photo-7752820.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", skills: ["On-page SEO", "Technical SEO", "Backlinks"], link: "https://www.fiverr.com/?utm_source=skillhub"
-  },
-  {
-    id: "s4", name: "Nadia Islam", level: "level-top", cat: "video", price: 40, rating: "4.9", reviews: 678, delivery: "2 Days", response: "Within 6 hours", orders: "720+", title: "I will edit your video professionally for YouTube & social media", desc: "Creative video editor specializing in YouTube content, social media reels, and cinematic storytelling.", img: "https://images.pexels.com/photos/36434829/pexels-photo-36434829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", skills: ["Premiere Pro", "After Effects", "Motion Graphics"], link: "https://www.fiverr.com/?utm_source=skillhub"
-  }
+  { id: "s1", name: "Arif Hasan", level: "level-2", cat: "web", price: 50, rating: "4.9", reviews: 487, delivery: "3 Days", response: "Within 24 hours", orders: "520+", title: "I will design a modern, responsive website", desc: "Professional web designer with 5+ years experience.", img: "https://fiverr-res.cloudinary.com/image/upload/t_profile_original,q_auto,f_auto/v1/attachments/profile/photo/a338e20165ef1579132b59c025619cda-1753958218510/1d3c693e-e33e-46b7-8524-33e3cbddb7ee.jpg", skills: ["WordPress", "React", "Figma"], link: "https://www.fiverr.com/" },
+  { id: "s2", name: "Fatima Rahman", level: "level-top", cat: "logo", price: 35, rating: "5.0", reviews: 1203, delivery: "2 Days", response: "Within 12 hours", orders: "1,350+", title: "I will create a stunning logo", desc: "Award-winning graphic designer.", img: "https://images.pexels.com/photos/7717254/pexels-photo-7717254.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", skills: ["Logo", "Branding", "Illustrator"], link: "https://www.fiverr.com/" },
+  { id: "s3", name: "Rakib Ahmed", level: "level-2", cat: "seo", price: 80, rating: "4.8", reviews: 312, delivery: "7 Days", response: "Within 24 hours", orders: "340+", title: "I will do SEO optimization", desc: "SEO expert with proven results.", img: "https://images.pexels.com/photos/7752820/pexels-photo-7752820.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", skills: ["On-page SEO", "Technical SEO"], link: "https://www.fiverr.com/" },
+  { id: "s4", name: "Nadia Islam", level: "level-top", cat: "video", price: 40, rating: "4.9", reviews: 678, delivery: "2 Days", response: "Within 6 hours", orders: "720+", title: "I will edit your video professionally", desc: "Creative video editor.", img: "https://images.pexels.com/photos/36434829/pexels-photo-36434829.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940", skills: ["Premiere Pro", "After Effects"], link: "https://www.fiverr.com/" }
 ];
 
 let categories = JSON.parse(localStorage.getItem('sh_categories')) || DEFAULT_CATEGORIES;
@@ -1030,86 +959,37 @@ let sellers = JSON.parse(localStorage.getItem('sh_sellers')) || DEFAULT_SELLERS;
 let isAdmin = false;
 
 // Click tracking with timestamps
-let clickData = {
-  clicks: [], // array of { sellerId, timestamp }
-  lastCleanup: Date.now()
-};
+let clickData = { clicks: [], lastCleanup: Date.now() };
 
-// Load click data from localStorage
 function loadClickData() {
   const saved = localStorage.getItem('sh_click_data');
-  if (saved) {
-    clickData = JSON.parse(saved);
-  } else {
-    // Initialize with some sample data for demo
-    const now = Date.now();
-    const day = 24 * 60 * 60 * 1000;
-    sellers.forEach(seller => {
-      // Add random clicks over last 30 days for demo
-      const randomClicks = Math.floor(Math.random() * 30) + 5;
-      for (let i = 0; i < randomClicks; i++) {
-        const daysAgo = Math.floor(Math.random() * 30);
-        clickData.clicks.push({
-          sellerId: seller.id,
-          timestamp: now - (daysAgo * day)
-        });
-      }
-    });
-    saveClickData();
-  }
+  if (saved) clickData = JSON.parse(saved);
+  else saveClickData();
 }
-
-function saveClickData() {
-  localStorage.setItem('sh_click_data', JSON.stringify(clickData));
-}
-
-function trackClick(sellerId) {
-  clickData.clicks.push({
-    sellerId: sellerId,
-    timestamp: Date.now()
-  });
-  saveClickData();
-  // Update the click analytics display if admin panel is open
-  if (document.getElementById('tabClicks').classList.contains('active')) {
-    renderClickAnalytics();
-  }
-}
+function saveClickData() { localStorage.setItem('sh_click_data', JSON.stringify(clickData)); }
+function trackClick(sellerId) { clickData.clicks.push({ sellerId, timestamp: Date.now() }); saveClickData(); if (document.getElementById('tabClicks')?.classList.contains('active')) renderClickAnalytics(); }
 
 function getClicksByDateRange(days) {
   const now = Date.now();
   const cutoff = days === 0 ? 0 : now - (days * 24 * 60 * 60 * 1000);
-  
   const filtered = days === 0 ? clickData.clicks : clickData.clicks.filter(c => c.timestamp >= cutoff);
-  
   const sellerClicks = {};
-  filtered.forEach(click => {
-    sellerClicks[click.sellerId] = (sellerClicks[click.sellerId] || 0) + 1;
-  });
-  
+  filtered.forEach(click => sellerClicks[click.sellerId] = (sellerClicks[click.sellerId] || 0) + 1);
   return sellerClicks;
 }
 
-let currentClickFilter = 0; // 0 = all time, 7, 14, 21
-
+let currentClickFilter = 0;
 function setClickFilter(days) {
   currentClickFilter = days;
-  document.querySelectorAll('.time-btn').forEach(btn => {
-    btn.classList.remove('active');
-    if (btn.getAttribute('data-days') == days || (days === 0 && btn.getAttribute('data-days') === '0')) {
-      btn.classList.add('active');
-    }
-  });
+  document.querySelectorAll('.time-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
   renderClickAnalytics();
 }
 
 function renderClickAnalytics() {
   const sellerClicks = getClicksByDateRange(currentClickFilter);
-  
-  // Calculate total clicks
   const totalClicks = Object.values(sellerClicks).reduce((a, b) => a + b, 0);
   const avgClicks = sellers.length > 0 ? (totalClicks / sellers.length).toFixed(1) : 0;
-  
-  // Find top clicked seller
   let topSeller = { id: null, name: '-', clicks: 0 };
   for (const [id, clicks] of Object.entries(sellerClicks)) {
     if (clicks > topSeller.clicks) {
@@ -1117,64 +997,105 @@ function renderClickAnalytics() {
       topSeller = { id, name: seller?.name || id, clicks };
     }
   }
-  
   document.getElementById('totalClicksAll').innerText = totalClicks;
   document.getElementById('avgClicksPerSeller').innerText = avgClicks;
   document.getElementById('topClickSeller').innerHTML = topSeller.name !== '-' ? `${topSeller.name} (${topSeller.clicks})` : '-';
   
-  // Sort sellers by clicks
   const sortedSellers = [...sellers].sort((a, b) => (sellerClicks[b.id] || 0) - (sellerClicks[a.id] || 0));
   const maxClicks = sortedSellers.length > 0 ? (sellerClicks[sortedSellers[0].id] || 0) : 1;
-  
   const grid = document.getElementById('clickStatsGrid');
   grid.innerHTML = sortedSellers.map((seller, index) => {
     const clicks = sellerClicks[seller.id] || 0;
     const percentage = maxClicks > 0 ? (clicks / maxClicks * 100) : 0;
     const catLabel = categories.find(c => c.id === seller.cat)?.label || seller.cat;
-    
-    return `
-      <div class="click-stat-card">
-        <div class="rank-badge">#${index + 1}</div>
-        <div class="profile">
-          <img src="${seller.img}" alt="${seller.name}" onerror="this.src='https://via.placeholder.com/50'">
-          <div>
-            <h4>${seller.name}</h4>
-            <div class="cat">${catLabel} • ${seller.level === 'level-top' ? 'Top Rated' : seller.level === 'level-2' ? 'Level 2' : 'Level 1'}</div>
-          </div>
-        </div>
-        <div class="click-stats">
-          <div class="stat"><div class="value">${clicks}</div><div class="label">Clicks</div></div>
-          <div class="stat"><div class="value">⭐ ${seller.rating}</div><div class="label">Rating</div></div>
-          <div class="stat"><div class="value">$${seller.price}</div><div class="label">Price</div></div>
-        </div>
-        <div class="click-progress">
-          <div class="fill" style="width: ${percentage}%"></div>
-        </div>
-      </div>
-    `;
+    return `<div class="click-stat-card"><div class="rank-badge">#${index+1}</div><div class="profile"><img src="${seller.img}"><div><h4>${seller.name}</h4><div class="cat">${catLabel} • ${seller.level === 'level-top' ? 'Top Rated' : 'Level 2'}</div></div></div><div class="click-stats"><div class="stat"><div class="value">${clicks}</div><div class="label">Clicks</div></div><div class="stat"><div class="value">⭐ ${seller.rating}</div><div class="label">Rating</div></div><div class="stat"><div class="value">$${seller.price}</div><div class="label">Price</div></div></div><div class="click-progress"><div class="fill" style="width:${percentage}%"></div></div></div>`;
   }).join('');
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-  loadClickData();
+// ==================== EXPORT & RESET FUNCTIONS ====================
+function exportAllData() {
+  const exportData = {
+    sellers: sellers,
+    categories: categories,
+    clickData: clickData,
+    exportedAt: new Date().toISOString()
+  };
+  
+  const dataStr = JSON.stringify(exportData, null, 2);
+  const blob = new Blob([dataStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `skillhub_export_${new Date().toISOString().split('T')[0]}.json`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  // Also export CSV for Excel
+  exportToCSV();
+}
+
+function exportToCSV() {
+  // Export Sellers CSV
+  const sellerHeaders = ['ID', 'Name', 'Category', 'Level', 'Rating', 'Reviews', 'Price', 'Skills', 'Title', 'Description'];
+  const sellerRows = sellers.map(s => [s.id, s.name, s.cat, s.level, s.rating, s.reviews, s.price, s.skills.join(', '), s.title, s.desc]);
+  const sellerCSV = [sellerHeaders, ...sellerRows].map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
+  
+  // Export Clicks CSV
+  const clickHeaders = ['Seller ID', 'Seller Name', 'Timestamp', 'Date'];
+  const clickRows = clickData.clicks.map(c => {
+    const seller = sellers.find(s => s.id === c.sellerId);
+    return [c.sellerId, seller?.name || 'Unknown', c.timestamp, new Date(c.timestamp).toLocaleString()];
+  });
+  const clickCSV = [clickHeaders, ...clickRows].map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(',')).join('\n');
+  
+  // Download both files
+  const sellerBlob = new Blob([sellerCSV], { type: 'text/csv' });
+  const sellerUrl = URL.createObjectURL(sellerBlob);
+  const sellerA = document.createElement('a');
+  sellerA.href = sellerUrl;
+  sellerA.download = `skillhub_sellers_${new Date().toISOString().split('T')[0]}.csv`;
+  sellerA.click();
+  URL.revokeObjectURL(sellerUrl);
+  
+  const clickBlob = new Blob([clickCSV], { type: 'text/csv' });
+  const clickUrl = URL.createObjectURL(clickBlob);
+  const clickA = document.createElement('a');
+  clickA.href = clickUrl;
+  clickA.download = `skillhub_clicks_${new Date().toISOString().split('T')[0]}.csv`;
+  clickA.click();
+  URL.revokeObjectURL(clickUrl);
+  
+  alert('✅ Data exported successfully! Check your downloads folder for CSV files.');
+}
+
+function showResetConfirm() {
+  closeModal('adminPanelModal');
+  document.getElementById('confirmModal').classList.add('active');
+}
+
+function resetAllData() {
+  categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES));
+  sellers = JSON.parse(JSON.stringify(DEFAULT_SELLERS));
+  clickData = { clicks: [], lastCleanup: Date.now() };
+  
+  localStorage.setItem('sh_categories', JSON.stringify(categories));
+  localStorage.setItem('sh_sellers', JSON.stringify(sellers));
+  saveClickData();
+  
+  closeModal('confirmModal');
   renderCategories();
   renderSellers('all');
   updateSystemCounters();
   updateAdminStats();
   renderAnalytics();
-
-  var observer = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible') } });
-  },{threshold:0.05,rootMargin:'0px 0px -20px 0px'});
-  document.querySelectorAll('.fade-up').forEach(function(el){ observer.observe(el) });
-});
-
-window.addEventListener('keydown', function(e) {
-  if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
-    e.preventDefault();
-    openAdminGateway();
-  }
-});
+  renderClickAnalytics();
+  renderSellersTable();
+  
+  alert('✅ All data has been reset to default!');
+  openModal('adminPanelModal');
+}
 
 // ==================== SYSTEM FUNCTIONS ====================
 function updateSystemCounters() {
@@ -1188,39 +1109,26 @@ function updateAdminStats() {
   document.getElementById('adminTotalCategories').innerText = categories.length - 1;
   const avgRating = sellers.length > 0 ? (sellers.reduce((sum, s) => sum + parseFloat(s.rating), 0) / sellers.length).toFixed(1) : '0';
   document.getElementById('adminAvgRating').innerText = avgRating;
-
   if (sellers.length > 0) {
     const topSeller = sellers.reduce((a, b) => a.reviews > b.reviews ? a : b);
     document.getElementById('adminTopSeller').innerText = topSeller.name.split(' ')[0];
   }
 }
 
-// ==================== RENDER FUNCTIONS ====================
 function renderCategories() {
   const filterBar = document.getElementById('filterBar');
   const footerCats = document.getElementById('footerCats');
   const selectCatForm = document.getElementById('sCat');
   const adminCatList = document.getElementById('activeCatsAdminList');
-
-  let filterHTML = '';
-  let footerHTML = '';
-  let selectHTML = '';
-  let adminHTML = '';
-
+  let filterHTML = '', footerHTML = '', selectHTML = '', adminHTML = '';
   categories.forEach((c, idx) => {
-    const activeClass = idx === 0 ? 'active' : '';
-    filterHTML += `<button class="filter-btn ${activeClass}" id="fbtn-${c.id}" onclick="filterCards('${c.id}')">${c.label}</button>`;
-
+    filterHTML += `<button class="filter-btn ${idx === 0 ? 'active' : ''}" id="fbtn-${c.id}" onclick="filterCards('${c.id}')">${c.label}</button>`;
     if (c.id !== 'all') {
       footerHTML += `<li><a href="#sellers">${c.label}</a></li>`;
       selectHTML += `<option value="${c.id}">${c.label}</option>`;
-      adminHTML += `<div style="display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #e2e8f0;font-size:.8rem">
-        <span><strong>${c.label}</strong> <code style="color:#64748b;font-size:.7rem">(${c.id})</code></span>
-        <a href="javascript:void(0)" onclick="deleteCategory('${c.id}')" style="color:#ef4444;font-weight:700">Remove</a>
-      </div>`;
+      adminHTML += `<div style="display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #e2e8f0"><span><strong>${c.label}</strong> <code style="color:#64748b">(${c.id})</code></span><a href="javascript:void(0)" onclick="deleteCategory('${c.id}')" style="color:#ef4444">Remove</a></div>`;
     }
   });
-
   filterBar.innerHTML = filterHTML;
   footerCats.innerHTML = footerHTML;
   selectCatForm.innerHTML = selectHTML;
@@ -1228,321 +1136,103 @@ function renderCategories() {
 }
 
 function getLevelLabel(level) {
-  const labels = {
-    'level-1': 'Level 1',
-    'level-2': 'Level 2',
-    'level-top': 'Top Rated',
-    'level-fiverr-choice': 'Fiverr Choice',
-    'level-fiverr-pro': 'Fiverr Pro'
-  };
+  const labels = { 'level-1': 'Level 1', 'level-2': 'Level 2', 'level-top': 'Top Rated', 'level-fiverr-choice': 'Fiverr Choice', 'level-fiverr-pro': 'Fiverr Pro' };
   return labels[level] || level;
 }
 
 function renderSellers(targetCat) {
   const grid = document.getElementById('cardsGrid');
   grid.innerHTML = '';
-
   const targetArray = targetCat === 'all' ? sellers : sellers.filter(s => s.cat === targetCat);
-
-  if(targetArray.length === 0) {
-    grid.innerHTML = `<div style="grid-column:1/-1;padding:48px;color:#94a3b8;font-weight:700;font-size:1rem">No experts found in this category. Try another filter!</div>`;
-    return;
-  }
-
+  if(targetArray.length === 0) { grid.innerHTML = `<div style="grid-column:1/-1;padding:48px;color:#94a3b8;text-align:center">No experts found</div>`; return; }
   targetArray.forEach(s => {
     let skillTagsHTML = '';
-    if(Array.isArray(s.skills)){
-      s.skills.forEach(sk => { skillTagsHTML += `<span class="skill-tag">${sk}</span>`; });
-    }
-
+    if(Array.isArray(s.skills)) s.skills.forEach(sk => skillTagsHTML += `<span class="skill-tag">${sk}</span>`);
     const levelLabel = getLevelLabel(s.level);
     const catLabel = categories.find(c => c.id === s.cat)?.label || s.cat;
-
     const card = document.createElement('div');
     card.className = "card fade-up visible";
-    card.setAttribute('data-cat', s.cat);
-    card.id = `card-node-${s.id}`;
-
-    card.innerHTML = `
-      <div class="verified-badge"><span>✓</span> Verified</div>
-      <div class="card-top">
-        <div class="card-profile">
-          <div class="card-avatar">
-            <img src="${s.img}" alt="${s.name}" onerror="this.src='https://via.placeholder.com/52x52?text=👤'"/>
-            <span class="online-dot"></span>
-          </div>
-          <div class="card-info">
-            <div class="card-name-row">
-              <span class="card-name">${s.name}</span>
-              <span class="card-level ${s.level}">${levelLabel}</span>
-            </div>
-            <span class="card-cat">${catLabel}</span>
-          </div>
-        </div>
-        <div class="card-title">${s.title}</div>
-        <div class="card-desc">${s.desc}</div>
-        <div class="card-skills">${skillTagsHTML}</div>
-        <div class="card-stats">
-          <svg class="star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          <span class="rating-num">${s.rating}</span><span>(${s.reviews})</span>
-          <span>•</span>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-          <span>${s.delivery}</span>
-        </div>
-        <div class="card-meta">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-          <span>${s.response}</span><span>•</span><span>${s.orders} Orders</span>
-        </div>
-      </div>
-      <div class="card-bottom">
-        <div><span class="card-price-label">Starting at</span><div class="card-price">$${s.price}</div></div>
-        <a href="${s.link}" target="_blank" rel="noopener" class="order-btn" onclick="trackClick('${s.id}')">Order Now →</a>
-      </div>
-      <div class="admin-card-actions">
-        <button class="btn-admin-edit" onclick="initiateEditSeller('${s.id}')">Edit</button>
-        <button class="btn-admin-del" onclick="deleteSeller('${s.id}')">Delete</button>
-      </div>
-    `;
+    card.innerHTML = `<div class="verified-badge"><span>✓</span> Verified</div><div class="card-top"><div class="card-profile"><div class="card-avatar"><img src="${s.img}" onerror="this.src='https://via.placeholder.com/52'"/><span class="online-dot"></span></div><div class="card-info"><div class="card-name-row"><span class="card-name">${s.name}</span><span class="card-level ${s.level}">${levelLabel}</span></div><span class="card-cat">${catLabel}</span></div></div><div class="card-title">${s.title}</div><div class="card-desc">${s.desc}</div><div class="card-skills">${skillTagsHTML}</div><div class="card-stats"><svg class="star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span class="rating-num">${s.rating}</span><span>(${s.reviews})</span><span>•</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span>${s.delivery}</span></div><div class="card-meta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><span>${s.response}</span><span>•</span><span>${s.orders} Orders</span></div></div><div class="card-bottom"><div><span class="card-price-label">Starting at</span><div class="card-price">$${s.price}</div></div><a href="${s.link}" target="_blank" class="order-btn" onclick="trackClick('${s.id}')">Order Now →</a></div><div class="admin-card-actions"><button class="btn-admin-edit" onclick="initiateEditSeller('${s.id}')">Edit</button><button class="btn-admin-del" onclick="deleteSeller('${s.id}')">Delete</button></div>`;
     grid.appendChild(card);
   });
 }
 
 function filterCards(cat) {
-  var btns = document.querySelectorAll('.filter-btn');
-  btns.forEach(function(b){ b.classList.remove('active') });
-
-  const targetedBtn = document.getElementById(`fbtn-${cat}`);
-  if(targetedBtn) targetedBtn.classList.add('active');
-
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(`fbtn-${cat}`)?.classList.add('active');
   renderSellers(cat);
 }
 
-// ==================== ANALYTICS FUNCTIONS ====================
 function renderAnalytics() {
-  renderCategoryStats();
-  renderLevelDistribution();
-  renderTopPerformers();
-}
-
-function renderCategoryStats() {
   const grid = document.getElementById('catStatsGrid');
   const catStats = {};
-
-  sellers.forEach(s => {
-    catStats[s.cat] = (catStats[s.cat] || 0) + 1;
-  });
-
+  sellers.forEach(s => catStats[s.cat] = (catStats[s.cat] || 0) + 1);
   let html = '';
-  categories.forEach(c => {
-    if (c.id !== 'all') {
-      const count = catStats[c.id] || 0;
-      const colors = ['#10b981', '#3b82f6', '#8b5cf6', '#f97316', '#ec4899', '#14b8a6', '#f59e0b', '#ef4444'];
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      html += `
-        <div class="cat-stat-card">
-          <div class="cat-name">${c.label}</div>
-          <div class="cat-count" style="color:${color}">${count}</div>
-          <div class="cat-label">Expert${count !== 1 ? 's' : ''}</div>
-        </div>
-      `;
-    }
-  });
-
-  grid.innerHTML = html || '<p style="color:#64748b;text-align:center">No data available</p>';
-}
-
-function renderLevelDistribution() {
-  const chart = document.getElementById('levelDistChart');
-  const levels = {
-    'level-1': { label: 'Level 1', count: 0, color: '#2563eb' },
-    'level-2': { label: 'Level 2', count: 0, color: '#16a34a' },
-    'level-top': { label: 'Top Rated', count: 0, color: '#ea580c' },
-    'level-fiverr-choice': { label: 'Fiverr Choice', count: 0, color: '#a855f7' },
-    'level-fiverr-pro': { label: 'Fiverr Pro', count: 0, color: '#0f172a' }
-  };
-
-  sellers.forEach(s => {
-    if (levels[s.level]) levels[s.level].count++;
-  });
-
-  let html = '';
-  Object.values(levels).forEach(l => {
-    if (l.count > 0) {
-      html += `<div class="level-bar" style="background:${l.color}">${l.label}: ${l.count}</div>`;
-    }
-  });
-
-  chart.innerHTML = html || '<p style="color:#64748b">No level data</p>';
-}
-
-function renderTopPerformers() {
+  categories.forEach(c => { if (c.id !== 'all') { const count = catStats[c.id] || 0; html += `<div class="cat-stat-card"><div class="cat-name">${c.label}</div><div class="cat-count">${count}</div><div class="cat-label">Expert${count !== 1 ? 's' : ''}</div></div>`; } });
+  grid.innerHTML = html;
+  
+  const levelChart = document.getElementById('levelDistChart');
+  const levels = { 'level-1': { label: 'Level 1', count: 0, color: '#2563eb' }, 'level-2': { label: 'Level 2', count: 0, color: '#16a34a' }, 'level-top': { label: 'Top Rated', count: 0, color: '#ea580c' }, 'level-fiverr-choice': { label: 'Fiverr Choice', count: 0, color: '#a855f7' }, 'level-fiverr-pro': { label: 'Fiverr Pro', count: 0, color: '#0f172a' } };
+  sellers.forEach(s => { if (levels[s.level]) levels[s.level].count++; });
+  let levelHtml = '';
+  Object.values(levels).forEach(l => { if (l.count > 0) levelHtml += `<div class="level-bar" style="background:${l.color}">${l.label}: ${l.count}</div>`; });
+  levelChart.innerHTML = levelHtml;
+  
   const tbody = document.getElementById('topPerformersBody');
   const sorted = [...sellers].sort((a, b) => (parseFloat(b.rating) * b.reviews) - (parseFloat(a.rating) * a.reviews));
-
-  let html = '';
-  sorted.slice(0, 5).forEach((s, i) => {
-    const catLabel = categories.find(c => c.id === s.cat)?.label || s.cat;
-    html += `
-      <tr>
-        <td class="perf-rank">#${i + 1}</td>
-        <td>${s.name}</td>
-        <td>${catLabel}</td>
-        <td>⭐ ${s.rating}</td>
-        <td>${s.reviews}</td>
-      </tr>
-    `;
-  });
-
-  tbody.innerHTML = html || '<tr><td colspan="5" style="text-align:center;color:#64748b">No data available</td></tr>';
+  let perfHtml = '';
+  sorted.slice(0, 5).forEach((s, i) => { const catLabel = categories.find(c => c.id === s.cat)?.label || s.cat; perfHtml += `<tr><td class="perf-rank">#${i+1}</td><td>${s.name}</td><td>${catLabel}</td><td>⭐ ${s.rating}</td><td>${s.reviews}</td></tr>`; });
+  tbody.innerHTML = perfHtml;
 }
 
-// ==================== ADMIN TABLE FUNCTIONS ====================
 function renderSellersTable(filter = '') {
   const tbody = document.getElementById('sellersTableBody');
   let filtered = sellers;
-
-  if(filter) {
-    const q = filter.toLowerCase();
-    filtered = sellers.filter(s =>
-      s.name.toLowerCase().includes(q) ||
-      s.cat.toLowerCase().includes(q) ||
-      s.title.toLowerCase().includes(q)
-    );
-  }
-
-  tbody.innerHTML = filtered.map(s => {
-    const catLabel = categories.find(c => c.id === s.cat)?.label || s.cat;
-    const levelLabel = getLevelLabel(s.level);
-    return `<tr>
-      <td><div class="avatar-cell"><img src="${s.img}" alt="${s.name}" onerror="this.src='https://via.placeholder.com/36x36?text=👤'"/><div><strong>${s.name}</strong></div></div></td>
-      <td>${catLabel}</td>
-      <td><span class="card-level ${s.level}" style="font-size:0.6rem">${levelLabel}</span></td>
-      <td>⭐ ${s.rating}</td>
-      <td class="actions"><button class="edit-btn" onclick="initiateEditSeller('${s.id}')">Edit</button><button class="del-btn" onclick="deleteSeller('${s.id}')">Del</button></td>
-    </tr>`;
-  }).join('');
+  if(filter) { const q = filter.toLowerCase(); filtered = sellers.filter(s => s.name.toLowerCase().includes(q) || s.cat.toLowerCase().includes(q) || s.title.toLowerCase().includes(q)); }
+  tbody.innerHTML = filtered.map(s => { const catLabel = categories.find(c => c.id === s.cat)?.label || s.cat; return `<tr><td><div class="avatar-cell"><img src="${s.img}"><div><strong>${s.name}</strong></div></div></td><td>${catLabel}</td><td><span class="card-level ${s.level}">${getLevelLabel(s.level)}</span></td><td>⭐ ${s.rating}</td><td class="actions"><button class="edit-btn" onclick="initiateEditSeller('${s.id}')">Edit</button><button class="del-btn" onclick="deleteSeller('${s.id}')">Del</button></td>`; }).join('');
 }
 
-function searchSellers() {
-  const q = document.getElementById('sellerSearch').value;
-  renderSellersTable(q);
-}
+function searchSellers() { renderSellersTable(document.getElementById('sellerSearch').value); }
 
-// ==================== ADMIN FUNCTIONS ====================
-function openAdminGateway() {
-  if (isAdmin) {
-    openModal('adminPanelModal');
-  } else {
-    openModal('loginModal');
-  }
-}
-
-function openModal(id) {
-  document.getElementById(id).classList.add('active');
-  if(id === 'adminPanelModal') {
-    renderSellersTable();
-    updateAdminStats();
-    renderAnalytics();
-    renderClickAnalytics();
-  }
-}
-
-function closeModal(id) {
-  document.getElementById(id).classList.remove('active');
-}
+function openAdminGateway() { isAdmin ? openModal('adminPanelModal') : openModal('loginModal'); }
+function openModal(id) { document.getElementById(id).classList.add('active'); if(id === 'adminPanelModal') { renderSellersTable(); updateAdminStats(); renderAnalytics(); renderClickAnalytics(); } }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
 function handleLogin(e) {
   e.preventDefault();
-  const u = document.getElementById('adminUser').value;
-  const p = document.getElementById('adminPass').value;
-
-  if (u === 'admin' && p === 'sahs2026') {
-    isAdmin = true;
-    document.body.classList.add('admin-logged-in');
-    closeModal('loginModal');
-    openModal('adminPanelModal');
-    renderSellersTable();
-    updateAdminStats();
-    renderAnalytics();
-    renderClickAnalytics();
-    document.getElementById('loginForm').reset();
-  } else {
-    alert('Invalid credentials. Please try again.');
-    document.getElementById('adminUser').classList.add('error');
-    document.getElementById('adminPass').classList.add('error');
-  }
+  const u = document.getElementById('adminUser').value, p = document.getElementById('adminPass').value;
+  if (u === 'admin' && p === 'sahs2026') { isAdmin = true; document.body.classList.add('admin-logged-in'); closeModal('loginModal'); openModal('adminPanelModal'); renderSellersTable(); updateAdminStats(); renderAnalytics(); renderClickAnalytics(); document.getElementById('loginForm').reset(); }
+  else alert('Invalid credentials! Use admin / sahs2026');
 }
 
 function switchTab(tab) {
-  document.querySelectorAll('.panel-tab').forEach((t, i) => {
-    t.classList.remove('active');
-    if (tab === 'seller' && i === 0) t.classList.add('active');
-    else if (tab === 'cat' && i === 1) t.classList.add('active');
-    else if (tab === 'analytics' && i === 2) t.classList.add('active');
-    else if (tab === 'clicks' && i === 3) t.classList.add('active');
-  });
+  document.querySelectorAll('.panel-tab').forEach((t, i) => t.classList.remove('active'));
   document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
-  const tabs = {
-    'seller': 'tabSeller',
-    'cat': 'tabCat',
-    'analytics': 'tabAnalytics',
-    'addSeller': 'tabAddSeller',
-    'clicks': 'tabClicks'
-  };
-
-  if (tabs[tab]) {
-    document.getElementById(tabs[tab]).classList.add('active');
-  }
-
-  if (tab === 'seller') renderSellersTable();
-  if (tab === 'analytics') renderAnalytics();
-  if (tab === 'clicks') renderClickAnalytics();
+  const tabs = { 'seller': 'tabSeller', 'cat': 'tabCat', 'analytics': 'tabAnalytics', 'addSeller': 'tabAddSeller', 'clicks': 'tabClicks' };
+  if (tabs[tab]) document.getElementById(tabs[tab]).classList.add('active');
+  if (tab === 'seller') { document.querySelector('.panel-tab:first-child').classList.add('active'); renderSellersTable(); }
+  if (tab === 'cat') { document.querySelector('.panel-tab:nth-child(2)').classList.add('active'); }
+  if (tab === 'analytics') { document.querySelector('.panel-tab:nth-child(3)').classList.add('active'); renderAnalytics(); }
+  if (tab === 'clicks') { document.querySelector('.panel-tab:nth-child(4)').classList.add('active'); renderClickAnalytics(); }
 }
 
 function handleSaveSeller(e) {
   e.preventDefault();
   const id = document.getElementById('editSellerId').value || 's_' + Date.now();
-  const name = document.getElementById('sName').value;
-  const level = document.getElementById('sLevel').value;
-  const cat = document.getElementById('sCat').value;
-  const img = document.getElementById('sImg').value;
-  const title = document.getElementById('sTitle').value;
-  const desc = document.getElementById('sDesc').value;
-  const skills = document.getElementById('sSkills').value.split(',').map(s => s.trim()).filter(s => s);
-  const rating = document.getElementById('sRating').value;
-  const reviews = parseInt(document.getElementById('sReviews').value);
-  const delivery = document.getElementById('sDelivery').value;
-  const response = document.getElementById('sResponse').value;
-  const price = parseInt(document.getElementById('sPrice').value);
-  const link = document.getElementById('sLink').value;
-
-  const sellerObject = { id, name, level, cat, img, title, desc, skills, rating, reviews, delivery, response, price, link, orders: reviews + '+' };
-
+  const sellerObject = { id, name: document.getElementById('sName').value, level: document.getElementById('sLevel').value, cat: document.getElementById('sCat').value, img: document.getElementById('sImg').value, title: document.getElementById('sTitle').value, desc: document.getElementById('sDesc').value, skills: document.getElementById('sSkills').value.split(',').map(s=>s.trim()), rating: document.getElementById('sRating').value, reviews: parseInt(document.getElementById('sReviews').value), delivery: document.getElementById('sDelivery').value, response: document.getElementById('sResponse').value, price: parseInt(document.getElementById('sPrice').value), link: document.getElementById('sLink').value, orders: document.getElementById('sReviews').value + '+' };
   const existingIndex = sellers.findIndex(s => s.id === id);
-  if (existingIndex > -1) {
-    sellers[existingIndex] = sellerObject;
-  } else {
-    sellers.push(sellerObject);
-  }
-
+  existingIndex > -1 ? sellers[existingIndex] = sellerObject : sellers.push(sellerObject);
   localStorage.setItem('sh_sellers', JSON.stringify(sellers));
-  renderSellers('all');
-  renderSellersTable();
-  updateSystemCounters();
-  updateAdminStats();
-  renderAnalytics();
+  renderSellers('all'); renderSellersTable(); updateSystemCounters(); updateAdminStats(); renderAnalytics();
   closeModal('adminPanelModal');
   document.getElementById('sellerForm').reset();
   document.getElementById('editSellerId').value = '';
-  document.getElementById('imagePreview').style.display = 'none';
-  alert('Expert saved successfully!');
+  alert('Expert saved!');
 }
 
 function initiateEditSeller(id) {
   const s = sellers.find(item => item.id === id);
   if(!s) return;
-
   document.getElementById('editSellerId').value = s.id;
   document.getElementById('sName').value = s.name;
   document.getElementById('sLevel').value = s.level;
@@ -1557,24 +1247,17 @@ function initiateEditSeller(id) {
   document.getElementById('sResponse').value = s.response;
   document.getElementById('sPrice').value = s.price;
   document.getElementById('sLink').value = s.link;
-
-  const preview = document.getElementById('imagePreview');
-  preview.src = s.img;
-  preview.style.display = 'block';
-
+  document.getElementById('imagePreview').src = s.img;
+  document.getElementById('imagePreview').style.display = 'block';
   switchTab('addSeller');
   openModal('adminPanelModal');
 }
 
 function deleteSeller(id) {
-  if(confirm('Are you sure you want to delete this expert?')) {
+  if(confirm('Delete this expert?')) {
     sellers = sellers.filter(s => s.id !== id);
     localStorage.setItem('sh_sellers', JSON.stringify(sellers));
-    renderSellers('all');
-    renderSellersTable();
-    updateSystemCounters();
-    updateAdminStats();
-    renderAnalytics();
+    renderSellers('all'); renderSellersTable(); updateSystemCounters(); updateAdminStats(); renderAnalytics();
   }
 }
 
@@ -1582,19 +1265,12 @@ function handleAddCategory(e) {
   e.preventDefault();
   const id = document.getElementById('catKey').value.toLowerCase().replace(/\s+/g, '');
   const label = document.getElementById('catLabel').value;
-
-  if(categories.some(c => c.id === id)) {
-    alert('Category already exists!');
-    return;
-  }
-
+  if(categories.some(c => c.id === id)) { alert('Category exists!'); return; }
   categories.push({ id, label });
   localStorage.setItem('sh_categories', JSON.stringify(categories));
-  renderCategories();
-  updateAdminStats();
-  renderAnalytics();
+  renderCategories(); updateAdminStats(); renderAnalytics();
   document.getElementById('catForm').reset();
-  alert('Category added successfully!');
+  alert('Category added!');
 }
 
 function deleteCategory(id) {
@@ -1602,34 +1278,20 @@ function deleteCategory(id) {
   if(confirm('Delete this category?')) {
     categories = categories.filter(c => c.id !== id);
     localStorage.setItem('sh_categories', JSON.stringify(categories));
-    renderCategories();
-    updateAdminStats();
-    renderAnalytics();
+    renderCategories(); updateAdminStats(); renderAnalytics();
   }
 }
 
 function previewImage(input) {
   const preview = document.getElementById('imagePreview');
-  if(input.value) {
-    preview.src = input.value;
-    preview.style.display = 'block';
-  } else {
-    preview.style.display = 'none';
-  }
+  if(input.value) { preview.src = input.value; preview.style.display = 'block'; }
+  else preview.style.display = 'none';
 }
 
-// ==================== SCROLL HANDLER ====================
-window.addEventListener('scroll', function(){
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
-});
-
-function toggleMenu(){
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  hamburger.classList.toggle('active');
-  mobileMenu.classList.toggle('active');
-}
+window.addEventListener('scroll', () => document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20));
+function toggleMenu() { document.getElementById('hamburger').classList.toggle('active'); document.getElementById('mobileMenu').classList.toggle('active'); }
+window.addEventListener('keydown', (e) => { if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') { e.preventDefault(); openAdminGateway(); } });
+document.addEventListener('DOMContentLoaded', () => { loadClickData(); renderCategories(); renderSellers('all'); updateSystemCounters(); updateAdminStats(); renderAnalytics(); new IntersectionObserver(entries => entries.forEach(e => e.isIntersecting && e.target.classList.add('visible')), { threshold: 0.05 }).observe(document.querySelectorAll('.fade-up')); });
 </script>
-
 </body>
 </html>
